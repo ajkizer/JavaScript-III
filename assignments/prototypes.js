@@ -40,6 +40,7 @@ function Humanoid(Attributes) {
   this.language = Attributes.language;
   CharacterStats.call(this, Attributes);
 }
+
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function() {
@@ -69,7 +70,7 @@ function Villain(Attributes) {
 Villain.prototype = Object.create(Humanoid.prototype);
 
 Villain.prototype.attack = function(target) {
-  let damageDone = Math.ceil(Math.random() * 5);
+  let damageDone = Math.ceil(Math.random() * 6);
   target.healthPoints -= damageDone;
   console.log(
     `${this.name} used Decay on ${target.name} for ${damageDone} damage`
@@ -122,7 +123,7 @@ const paladin = new Hero({
   },
   healthPoints: 22,
   name: "Patrick",
-  team: "Bubble Boys",
+  team: "Bubble Boyz",
   weapons: ["Hammer"],
   language: "Common Tongue"
 });
@@ -183,18 +184,25 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 const battle = function(player1, player2) {
   while (player1.healthPoints > 0 && player2.healthPoints > 0) {
     player1.attack(player2);
+    if (player2.healthPoints <= 0) {
+      playerWin(player1, player2);
+      break;
+    }
+
     player2.attack(player1);
-  }
-  if (player1.healthpoints <= 0) {
-    return `${player1.name} has died! ${player2.name} wins!`, player1.destroy();
-  }
-  if (player2.healthpoints <= 0) {
-    return `${player2.name} has died! ${player1.name} wins!`, player2.destroy();
+    if (player1.healthPoints <= 0) {
+      playerWin(player2, player1);
+      break;
+    }
   }
 };
 
-console.log(battle(deathKnight, paladin));
+const playerWin = function(winner, loser) {
+  console.log(`${winner.name} has defeated ${loser.name}!!!`);
+  console.log(loser.destroy());
+};
 
+battle(deathKnight, paladin);
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;

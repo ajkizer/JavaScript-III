@@ -13,7 +13,11 @@
 
 // code example for Window Binding
 const sayColor = function() {
-  console.log(`${this.color} is my favorite color`);
+  console.log(
+    `${
+      this.color
+    } is my favorite color (NOTE: Window binding; should be undefined)`
+  );
 };
 
 sayColor(); //returns undefined, as window does not have a color property.
@@ -51,7 +55,7 @@ let labrador = new Dog("Labrador", "Pizza", "ruff");
 console.log(labrador);
 
 // Principle 4
-
+let otherFoods = ["Ice Cream", "Milk", "Chicken Livers"];
 const sayFood = function(foods1, foods2, foods3) {
   console.log(
     `I am a ${this.breed} and my favorite food is ${
@@ -59,7 +63,6 @@ const sayFood = function(foods1, foods2, foods3) {
     }. I also like ${foods1}, ${foods2}, and ${foods3}`
   );
 };
-let otherFoods = ["Ice Cream", "Milk", "Chicken Livers"];
-sayFood.call(labrador);
+
 sayFood.apply(labrador, otherFoods);
 // code example for Explicit Binding
